@@ -64,16 +64,11 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [10] => [10]
      * E.g., [] => []
      */
-    def reverse[A](s: Sequence[A]): Sequence[A] = s match
-      def getUltimoElemento[A](s: Sequence[A]): A = s match
-        case Cons(h, Nil()) => h
-        case Cons(h, t) => getUltimoElemento(t)
-      case Cons(h, t) => Cons(getUltimoElemento(t))
-      Cons(getUltimoElemento(s), reverse(s))
-    // reverse(s) + firstOfS()
-
-
-
+    def reverse[A](s: Sequence[A]): Sequence[A] =
+      def reverseWithAccumulator(s: Sequence[A], acc: Sequence[A]): Sequence[A] = s match
+        case Cons(h, t) => reverseWithAccumulator(t, Cons(h, acc))
+        case _ => acc
+      reverseWithAccumulator(s, Nil())
 
     /*
      * Map the elements of the sequence to a new sequence and flatten the result
