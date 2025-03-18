@@ -49,3 +49,7 @@ class Task2Test:
 
     assertEquals(Cons("Algebra", Cons("Analisi", Cons("Matematica discreta", Cons("Probabilità", Nil())))),
       coursesFunction(inputSequence))
+
+  @Test def testFoldLeft() =
+    assertEquals(-16, foldLeft(Cons(3, Cons(7, Cons(1, Cons(5, Nil())))))(0)(_ - _))
+    assertEquals("Ciao sono Giovanni", foldLeft(Cons("Ciao", Cons(" sono ", Cons("Giovanni", Nil()))))("")(_ + _))

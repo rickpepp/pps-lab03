@@ -34,5 +34,8 @@ object Lab03:
     case Person.Teacher(_, c) => Cons(c, Nil())
     case _ => Nil()
   )
-  
-  
+
+  def foldLeft[A](s: Sequence[A])(default: A)(binFunc: (A, A) => A): A = s match
+    case Cons(h1, t) => foldLeft(t)(binFunc(default, h1))(binFunc)
+    case _ => default
+
