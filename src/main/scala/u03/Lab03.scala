@@ -44,9 +44,9 @@ object Lab03:
     val isTeacher: Person => Boolean = p => p match
       case Teacher(_, _) => true
       case _ => false
-    foldLeft(map(filter(s)(isTeacher))(t => 1))(0)(_ + _)
+    foldLeft(map(filter(s)(isTeacher))(_ => 1))(0)(_ + _)
 
-  // Task 3
+  // Task 3 (Dentro Streams.scala)
   def takeWhile[A](stream: Stream[A])(predicate: A => Boolean): Stream[A] = stream match
     case Cons(head, tail) if predicate(head()) => cons(head(), takeWhile(tail())(predicate))
     case _ => Empty()

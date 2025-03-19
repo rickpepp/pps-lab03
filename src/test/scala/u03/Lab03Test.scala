@@ -8,7 +8,6 @@ import u03.Sequences.Sequence.Cons
 import u03.Sequences.*
 import u02.AlgebraicDataTypes.Person.*
 import u02.AlgebraicDataTypes.Person
-import u03.Streams.Stream.*
 import Streams.*
 
 class Task1Test:
@@ -41,16 +40,18 @@ class Task1Test:
     assertEquals(Nil(), flatMap(Nil())(v => Cons(v, Nil())))
 
 class Task2Test:
-
-  val teacher1 = Teacher("Alessandro Rossi", "Analisi")
-  val teacher2 = Teacher("Carlo Bianchi", "Probabilità")
-  val teacher3 = Teacher("Carlo Giallo", "Algebra")
-  val student = Student("Pippo Rossi", 2015)
-  val teacher4 = Teacher("Franco", "Matematica discreta")
-  val inputSequence = Cons(teacher1, Cons(teacher2, Cons(teacher3, Cons(student, Cons(teacher4, Nil())))))
+  val courseTeacher1 = "Analisi"
+  val courseTeacher2 = "Probabilità"
+  val courseTeacher3 = "Algebra"
+  val courseTeacher4 = "Matematica discreta"
+  val inputSequence = Cons(Teacher("Alessandro Rossi", courseTeacher1), 
+    Cons(Teacher("Carlo Bianchi", courseTeacher2), 
+      Cons(Teacher("Carlo Giallo", courseTeacher3), 
+        Cons(Student("Pippo Rossi", 2015), 
+          Cons(Teacher("Franco", courseTeacher4), Nil())))))
 
   @Test def testCoursesOfTeacherFunction() =
-    assertEquals(Cons("Analisi", Cons("Probabilità", Cons("Algebra", Cons("Matematica discreta", Nil())))),
+    assertEquals(Cons(courseTeacher1, Cons(courseTeacher2, Cons(courseTeacher3, Cons(courseTeacher4, Nil())))),
       coursesFunction(inputSequence))
 
   @Test def testFoldLeft() =
