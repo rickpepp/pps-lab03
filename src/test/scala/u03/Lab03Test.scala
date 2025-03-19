@@ -8,6 +8,8 @@ import u03.Sequences.Sequence.Cons
 import u03.Sequences.*
 import u02.AlgebraicDataTypes.Person.*
 import u02.AlgebraicDataTypes.Person
+import u03.Streams.Stream.*
+import Streams.*
 
 class Task1Test:
   val sequence: Sequence[Int] = Cons(10, Cons(20, Cons(30, Nil())))
@@ -39,17 +41,33 @@ class Task1Test:
     assertEquals(Nil(), flatMap(Nil())(v => Cons(v, Nil())))
 
 class Task2Test:
-  @Test def testCoursesOfTeacherFunction() =
-    val teacher1 = Teacher("Alessandro Rossi", "Algebra")
-    val teacher2 = Teacher("Alessandro Rossi", "Analisi")
-    val teacher3 = Teacher("Alessandro Rossi", "Matematica discreta")
-    val teacher4 = Teacher("Carlo Bianchi", "Probabilità")
-    val student = Student("Pippo Rossi", 2015)
-    val inputSequence = Cons(teacher1, Cons(teacher2, Cons(teacher3, Cons(teacher4, Cons(student, Nil())))))
 
-    assertEquals(Cons("Algebra", Cons("Analisi", Cons("Matematica discreta", Cons("Probabilità", Nil())))),
+  val teacher1 = Teacher("Alessandro Rossi", "Analisi")
+  val teacher2 = Teacher("Carlo Bianchi", "Probabilità")
+  val teacher3 = Teacher("Carlo Giallo", "Algebra")
+  val student = Student("Pippo Rossi", 2015)
+  val teacher4 = Teacher("Franco", "Matematica discreta")
+  val inputSequence = Cons(teacher1, Cons(teacher2, Cons(teacher3, Cons(student, Cons(teacher4, Nil())))))
+
+  @Test def testCoursesOfTeacherFunction() =
+    assertEquals(Cons("Analisi", Cons("Probabilità", Cons("Algebra", Cons("Matematica discreta", Nil())))),
       coursesFunction(inputSequence))
 
   @Test def testFoldLeft() =
     assertEquals(-16, foldLeft(Cons(3, Cons(7, Cons(1, Cons(5, Nil())))))(0)(_ - _))
     assertEquals("Ciao sono Giovanni", foldLeft(Cons("Ciao", Cons(" sono ", Cons("Giovanni", Nil()))))("")(_ + _))
+
+  @Test def testCountNumberOfCourses() =
+    assertEquals(4, countNumberOfCourses(inputSequence))
+
+class Task3Test:
+  @Test def testTakeWhileStream() =
+    assertEquals(Cons(0, Cons(1, Cons(2, Cons(3, Cons(4, Nil()))))),
+      Stream.toList(Stream.takeWhile(Stream.iterate(0)( _ + 1))(_ < 5)))
+
+  @Test def testFillStream() =
+    assertEquals(Cons("a", Cons("a", Cons("a", Nil()))), Stream.toList(Stream.fill(3)("a")))
+
+  @Test def testFibonacciStream() =
+    assertEquals(Cons(0, Cons(1, Cons(1, Cons(2, Cons(3, Nil()))))),
+      Stream.toList(Stream.take(Stream.fibonacciStream)(5)))

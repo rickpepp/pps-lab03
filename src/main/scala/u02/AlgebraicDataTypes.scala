@@ -1,5 +1,7 @@
 package u02
 
+import u03.Sequences.Sequence
+
 object AlgebraicDataTypes extends App:
 
   enum Person: // a sum type defined by enumerating various cases

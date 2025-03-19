@@ -3,6 +3,7 @@ package u03
 import u03.Sequences.Sequence
 import Sequence.*
 import u02.AlgebraicDataTypes.Person
+import u02.AlgebraicDataTypes.Person.Teacher
 
 object Lab03:
 
@@ -38,4 +39,25 @@ object Lab03:
   def foldLeft[A](s: Sequence[A])(default: A)(binFunc: (A, A) => A): A = s match
     case Cons(h1, t) => foldLeft(t)(binFunc(default, h1))(binFunc)
     case _ => default
+
+  def countNumberOfCourses(s: Sequence[Person]): Int =
+    val isTeacher: Person => Boolean = p => p match
+      case Teacher(_, _) => true
+      case _ => false
+    foldLeft(map(filter(s)(isTeacher))(t => 1))(0)(_ + _)
+
+  // Task 3
+  def takeWhile[A](stream: Stream[A])(predicate: A => Boolean): Stream[A] = stream match
+    case Cons(head, tail) if predicate(head()) => cons(head(), takeWhile(tail())(predicate))
+    case _ => Empty()
+
+  def fill[A](n: Int)(value: A): Stream[A] = n match
+    case n if n > 0 => cons(value, fill(n - 1)(value))
+    case _ => Empty()
+
+  def fibonacciStream: Stream[Int] =
+    def fibonacciCalc(a: Int)(b: Int): Stream[Int] =
+      cons(a + b, fibonacciCalc(b)(a + b))
+    cons(0, cons(1, fibonacciCalc(0)(1)))
+
 
